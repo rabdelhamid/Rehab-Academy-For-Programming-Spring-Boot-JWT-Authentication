@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     
     private final String[] byPassedUrls= {
-                         "/xyz","/token/authenticate"
+                         "/mail/**","/token/authenticate"
     };
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -73,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         
         httpSecurity.csrf().disable()
-		    .authorizeRequests().antMatchers("/authenticate").permitAll()//BYPASS authenticate end point
+		    .authorizeRequests().antMatchers(byPassedUrls).permitAll()//BYPASS authenticate end point
 		    .anyRequest().authenticated().and()
 		    .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
                     .and().sessionManagement()
