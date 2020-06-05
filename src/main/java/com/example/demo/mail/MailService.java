@@ -19,6 +19,28 @@ import org.springframework.stereotype.Service;
  *
  * @author user
  */
+/**
+ * 
+ * To configure gmail account:
+    after google account login visit:
+    https://myaccount.google.com/lesssecureapps
+    more info:
+    https://stackoverflow.com/questions/35347269/javax-mail-authenticationfailedexception-535-5-7-8-username-and-password-not-ac
+    https://myaccount.google.com/security
+
+    This is necessary to avoid the following exception
+    javax.mail.AuthenticationFailedException: 535-5.7.8 Username and Password not accepted. 
+    Learn more at 535 5.7.8 https://support.google.com/mail/?p=BadCredentials c206sm12712889wmf.36 - gsmtp
+
+    Sending mail by spring boot links:
+    https://www.baeldung.com/spring-email
+    https://mkyong.com/spring-boot/spring-boot-how-to-send-email-via-smtp/
+    https://www.tutorialspoint.com/spring_boot/spring_boot_sending_email.htm
+
+ * */
+/* 
+@author user
+ */
 @Service
 public class MailService {
     @Autowired
