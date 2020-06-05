@@ -43,8 +43,8 @@ public class SecureController {
     SecurityUtil securityUtil; 
     
     @RequestMapping(value = "jwt/hello", method = RequestMethod.GET)
-    @PreAuthorize("EMPLOYEE")    
-    public ResponseEntity  sayHelloUser() throws AuthenticationException  {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity  sayHelloUser()  {
         
         CustomUser user=securityUtil.findAuthunticatedUser();
         return ResponseEntity.ok("Hello "+user.getUsername());

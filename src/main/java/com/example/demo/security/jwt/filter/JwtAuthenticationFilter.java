@@ -4,8 +4,11 @@ package com.example.demo.security.jwt.filter;
 
 import com.example.demo.security.jwt.constants.ConstantStrings;
 import com.example.demo.security.jwt.services.MyUserDetailsService;
+import com.example.demo.security.jwt.utils.FilterExceptionsUtil;
 import com.example.demo.security.jwt.utils.JwtTokenUtil;
 import com.example.demo.security.jwt.utils.SecurityUtil;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,7 +49,7 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter   {
             chain.doFilter(req, res);
 
         } else {
-           
+           try{
                 if (authHeader != null && authHeader.startsWith(ConstantStrings.TOKEN_PREFIX)) 
                 {
                                   
@@ -66,6 +70,12 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter   {
                         }
                     }
                     chain.doFilter(req, res);
+           }
+           catch(ExpiredJwtException ex)
+           {
+                logger.error(ex.getMessage());
+                FilterExceptionsUtil.constructResponse(res, HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+           }
                 
 
 
